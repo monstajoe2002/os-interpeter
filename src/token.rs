@@ -1,8 +1,9 @@
 use nom::{
     branch::alt,
     bytes::complete::tag,
-    character::complete::{alpha1, multispace0, not_line_ending},
-    sequence::separated_pair,
+    character::complete::{alphanumeric1, multispace0, not_line_ending},
+    combinator::recognize,
+    sequence::{delimited, preceded, separated_pair},
     IResult,
 };
 
@@ -18,7 +19,15 @@ pub enum Instruction {
 
 // Function to parse "assign" command
 pub fn parse_assign(input: &str) -> IResult<&str, Instruction> {
-    let (input, (var_name, value)) = separated_pair(tag("assign"), multispace0, alpha1)(input)?;
+    let (input, (var_name, value)) = separated_pair(
+        preceded(tag("assign"), multispace0), // "assign" keyword followed by spaces
+        recognize(alphanumeric1),             // Variable name (alphanumeric)
+        delimited(
+            multispace0,
+            recognize(alt((alphanumeric1, tag("input")))), // Value can be alphanumeric or "input"
+            multispace0,
+        ),
+    )(input)?;
     Ok((
         input,
         Instruction::Assign(var_name.to_string(), value.to_string()),

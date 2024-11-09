@@ -1,1 +1,2 @@
+assign a input
 print hello world
