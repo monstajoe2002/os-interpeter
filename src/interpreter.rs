@@ -14,9 +14,7 @@ pub fn execute_instruction(instruction: Instruction, variables: &mut HashMap<Str
                 let _ = stdout().flush();
                 stdin().read_line(&mut input).unwrap();
 
-                variables.insert(var.clone(), input.trim().to_string());
-                let variable = variables.get_key_value(&var).unwrap();
-                println!("{}= {}", variable.0, variable.1);
+                variables.insert(var, input.trim().to_string());
             } else {
                 // Handle normal value assignment
                 variables.insert(var, value);

@@ -1,6 +1,8 @@
 # TODO
 
 - [x] Print a value
-- [ ] Assign variables
+- [x] Assign variables
 - [ ] Write data to a file
 - [ ] Read from a file
+- [ ] Proper error handling
+- [ ] Write tests
